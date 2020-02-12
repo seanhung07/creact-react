@@ -3,17 +3,19 @@ import React from 'react';
 import '../../src/App.css';
 import titlepic from'../../src/title.png'
 import { GoogleLogin } from 'react-google-login';
+import {withRouter} from 'react-router-dom';
 
-function Login() {
+class Login extends React.Component {
     
-const responseGoogle = (response) =>{
-    console.log(response)
-    if(isNaN(response.uc.id_token)){
-        window.localStorage.setItem('token',response.uc.id_token);
-        this.props.history.push("/dashboard")
+ responseGoogle = (response) =>{
+    console.log(response.googleId)
+    if(!isNaN(response.googleId)){
+        window.localStorage.setItem('token',response.googleId);
+        window.location.replace("/dashboard");
     }
-}
+  }
   
+  render() {
     return (
       <div className="App">
         <header className="App-header">
@@ -22,15 +24,14 @@ const responseGoogle = (response) =>{
           <GoogleLogin
             clientId="1015132118515-s5vvq9n86s6pabsvj8fkk6ic2d5iuuak.apps.googleusercontent.com"
             buttonText="Sign in With Google"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
+            onSuccess={this.responseGoogle}
+            onFailure={this.responseGoogle}
             cookiePolicy={'single_host_origin'}
-          />
-          
-         
+          />         
         </header>
       </div>
     );
   }
+}
 
-export default Login;
+export default withRouter(Login);
