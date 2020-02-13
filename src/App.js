@@ -1,35 +1,51 @@
-import React from 'react';
-import './App.css';
-import titlepic from'./title.png'
-import { GoogleLogin } from 'react-google-login';
+import React from "react";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { Layout, Header, Navigation, Drawer, Content } from "react-mdl";
+import "./assets/index.css";
+import "react-mdl/extra/material.css";
+import "react-mdl/extra/material.js";
+import Login from "./components/Login";
+import Documents from "./components/Documents";
+import Calendar from "./components/Calendar";
+import NotFound from "./components/NotFound";
+import Dashboard from "./components/Dashboard";
+const App = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={Login} />
+      <Route path="/dashboard" component={DashboardLayout(Dashboard)} />
+      <Route path="/documents" component={DashboardLayout(Documents)} />
+      <Route path="/calendar" component={DashboardLayout(Calendar)} />
+      <Route path="*" component={NotFound} />
+    </Switch>
+  </BrowserRouter>
+);
 
-function App() {
-    
-const responseGoogle = (response) =>{
-    console.log(response.Zi.id_token)
-    if(isNaN(response.Zi.id_token)){
-        window.localStorage.setItem('token',response.Zi.id_token);
-        this.props.history.push("/dashboard")
-    }
-}
-  
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={titlepic} className="App-logo" alt="logo" />
-          <div className="wrap-login100 p-t-30 p-b-50"><span className="login100-form-title p-b-35">Pacific American School </span></div>
-          <GoogleLogin
-            clientId="1015132118515-s5vvq9n86s6pabsvj8fkk6ic2d5iuuak.apps.googleusercontent.com"
-            buttonText="Sign in With Google"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-          />
-          
-         
-        </header>
-      </div>
-    );
-  }
+const DashboardLayout = Main => props => (
+  <div className="demo-big-content">
+    <Layout>
+      <Header className="header-color" title="PAS" scroll>
+        <Navigation>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/documents">Documents</Link>
+          <Link to="/calendar">Calendar</Link>
+          <Link to="#">Sign out</Link>
+        </Navigation>
+      </Header>
+      <Drawer title="PAS">
+        <Navigation>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/documents">Documents</Link>
+          <Link to="/calendar">Calendar</Link>
+          <Link to="#">Sign out</Link>
+        </Navigation>
+      </Drawer>
+    </Layout>
+    <Content>
+      <div className="page-content" />
+      <Main {...props} />
+    </Content>
+  </div>
+);
 
 export default App;
