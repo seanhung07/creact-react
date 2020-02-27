@@ -1,0 +1,9 @@
+{
+  "short_name": "Shards Dashboard Lite React",
+  "name": "Shards Dashboard Lite React",
+  
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
